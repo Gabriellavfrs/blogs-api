@@ -2,7 +2,6 @@ const { getPayload } = require('../auth/auth-functions');
 
 const validateJwt = async (req, res, next) => {
   try {
-    console.log(req);
     const bearerToken = req.headers.authorization;
 
     if (!bearerToken) {
