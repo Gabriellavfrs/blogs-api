@@ -9,16 +9,41 @@ const UserSchema = (sequelize, DataTypes) => {
     id: {
       allowNull: false,
       primaryKey: true,
+      autoIncrement: true,
       type: DataTypes.INTEGER,
     },
-    display_name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
+    displayName: {
+      type: DataTypes.STRING,
+      validate: {
+        len: {
+          args: [8],
+          msg: "\"displayName\" length must be at least 8 characters long"
+        }
+      }
+    },
+    email: {
+      type: DataTypes.STRING,
+      validate: {
+        isEmail: {
+          msg: "\"email\" must be a valid email"
+        }
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      validate: {
+        len: {
+          args: [6],
+          msg: "\"password\" length must be at least 6 characters long"
+        }
+      }
+    },
     image: DataTypes.STRING,
   },
   {
     tableName: 'users',
-    timestamps: false
+    timestamps: false,
+    underscored: true,
   });
   return UserTable;
 };
