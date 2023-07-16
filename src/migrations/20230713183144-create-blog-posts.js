@@ -15,8 +15,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      title: Sequelize.STRING,
-      content: Sequelize.STRING,
+      title: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      content: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
       user_id: {
         allowNull:false,
         type: Sequelize.INTEGER,

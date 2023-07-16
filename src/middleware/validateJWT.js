@@ -8,7 +8,7 @@ const validateJwt = async (req, res, next) => {
       return res.status(401).json({ message: 'Token not found' });
     }
 
-    const token = bearerToken.split(' ')[1];
+    const token = bearerToken.split(' ')[1] || bearerToken;
 
     const payload = getPayload(token);
 

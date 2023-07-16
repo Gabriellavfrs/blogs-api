@@ -4,7 +4,7 @@
  * @param {import('sequelize').DataTypes} DataTypes 
  */
 
-const CAtegorySchema = (sequelize, DataTypes) => {
+const CategorySchema = (sequelize, DataTypes) => {
   const CategroyTable = sequelize.define('Category', {
     id: {
       allowNull: false,
@@ -13,7 +13,13 @@ const CAtegorySchema = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
     },
     name: {
+      allowNull: false,
       type: DataTypes.STRING,
+      validate: {
+        notNull: {
+          msg: "\"name\" is required",
+        }
+      }
     },
   },
   {
@@ -23,4 +29,4 @@ const CAtegorySchema = (sequelize, DataTypes) => {
   return CategroyTable;
 };
 
-module.exports = CAtegorySchema;
+module.exports = CategorySchema;

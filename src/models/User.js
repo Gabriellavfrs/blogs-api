@@ -13,6 +13,7 @@ const UserSchema = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
     },
     displayName: {
+      allowNull: false,
       type: DataTypes.STRING,
       validate: {
         len: {
@@ -22,6 +23,7 @@ const UserSchema = (sequelize, DataTypes) => {
       }
     },
     email: {
+      allowNull: false,
       type: DataTypes.STRING,
       validate: {
         isEmail: {
@@ -30,6 +32,7 @@ const UserSchema = (sequelize, DataTypes) => {
       }
     },
     password: {
+      allowNull: false,
       type: DataTypes.STRING,
       validate: {
         len: {
