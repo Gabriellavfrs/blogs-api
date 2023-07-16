@@ -13,4 +13,13 @@ const newCategory = async (req, res) => {
   }
   };
 
-  module.exports = { newCategory };
+  const allCategories = async (req, res) => {
+    try {
+      const categories = await CategoryService.getAllCategories();
+      res.status(200).json(categories);
+    } catch (err) {
+      return res.status(500).json({ message: 'Internal Error', error: err.message });
+    }
+  };
+
+  module.exports = { newCategory, allCategories };
