@@ -48,7 +48,16 @@ const UserSchema = (sequelize, DataTypes) => {
     timestamps: false,
     underscored: true,
   });
+
+  UserTable.associate = (models) => {
+    UserTable.hasMany(models.BlogPost, {
+      as: 'blogPosts',
+      foreignKey: 'userId'
+    });
+  };
+
   return UserTable;
+  
 };
 
 module.exports = UserSchema;
