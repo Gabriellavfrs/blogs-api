@@ -48,5 +48,29 @@ const newPost = async (req, res) => {
       return res.status(500).json({ message: 'Internal Error', error: err.message });
     }
   };
+
+  const updatePost = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { id: userId } = req.payload.data;
+      const { title, content } = req.body;
+
+      if (!(title && content)) {
+        return res.status(400).json({ message: 'Some required fields are missing' });
+      }
+
+      const postToUpdate = await BlogPostService.getPostById(id);
+      
+      if (postToUpdate.user.id !== userId) {
+        return res.status(401).json({ message: 'Unauthorized user' });
+      }
+
+      await BlogPostService.updatePost(id, title, content);
+      const updatedPost = await BlogPostService.getPostById(id);
+      return res.status(200).json(updatedPost);
+    } catch (err) {
+      return res.status(500).json({ message: 'Internal Error', error: err.message });
+    }
+  };
   
-module.exports = { newPost, allPosts, postById };
+module.exports = { newPost, allPosts, postById, updatePost };

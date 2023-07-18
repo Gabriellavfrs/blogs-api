@@ -34,4 +34,7 @@ const getPostById = (id) => BlogPost.findOne({
   ],
 });
 
-module.exports = { createNewPost, getPostById, getAllPosts };
+const updatePost = (id, title, content) => 
+  BlogPost.update({ title, content }, { where: { id } });
+
+module.exports = { createNewPost, getPostById, getAllPosts, updatePost };
