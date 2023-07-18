@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const { Op } = require('sequelize');
 const { BlogPost, PostCategory, User, Category } = require('../models');
 const config = require('../config/config');
 
@@ -34,9 +35,32 @@ const getPostById = (id) => BlogPost.findOne({
   ],
 });
 
-const updatePost = (id, title, content) => 
-  BlogPost.update({ title, content }, { where: { id } });
+const updatePost = (id, title, content) => BlogPost.update({ title, content }, { where: { id } });
 
 const removePost = (id) => BlogPost.destroy({ where: { id } });
 
-module.exports = { createNewPost, getPostById, getAllPosts, updatePost, removePost };
+const getPostBySearch = (searchTerm) => BlogPost.findAll({
+  where: { 
+    [Op.or]: [
+      {
+        title: { [Op.like]: `%${searchTerm}%` },
+      },
+      {
+        content: { [Op.like]: `%${searchTerm}%` },
+      },
+    ],
+  },
+  include: [
+    { model: User, as: 'user', attributes: { exclude: 'password' } },
+    { model: Category, as: 'categories', through: { attributes: [] } },
+  ],
+});
+
+module.exports = { 
+  createNewPost, 
+  getPostById, 
+  getAllPosts, 
+  updatePost, 
+  removePost, 
+  getPostBySearch,
+};

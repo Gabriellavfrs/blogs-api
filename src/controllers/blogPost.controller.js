@@ -95,5 +95,15 @@ const newPost = async (req, res) => {
       return res.status(500).json({ message: err.message });
     }
   };
+
+  const postBySearch = async (req, res) => {
+    try {
+      const { q } = req.query;
+      const posts = await BlogPostService.getPostBySearch(q);
+      return res.status(200).json(posts);
+    } catch (err) {
+      return res.status(500).json({ message: err.message });
+    }
+  };
   
-module.exports = { newPost, allPosts, postById, updatePost, removePost };
+module.exports = { newPost, allPosts, postById, updatePost, removePost, postBySearch };
