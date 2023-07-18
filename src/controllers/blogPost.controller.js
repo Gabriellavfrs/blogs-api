@@ -22,7 +22,7 @@ const newPost = async (req, res) => {
     const post = await BlogPostService.createNewPost(title, content, userId, categoryIds);
     res.status(201).json(post);
   } catch (err) {
-    return res.status(500).json({ message: 'Internal Error', error: err.message });
+    return res.status(500).json({ message: err.message });
   }
   };
 
@@ -31,7 +31,7 @@ const newPost = async (req, res) => {
       const posts = await BlogPostService.getAllPosts();
       return res.status(200).json(posts);
     } catch (err) {
-      return res.status(500).json({ message: 'Internal Error', error: err.message });
+      return res.status(500).json({ message: err.message });
     }
   };
 
@@ -45,7 +45,7 @@ const newPost = async (req, res) => {
 
       return res.status(200).json(post);
     } catch (err) {
-      return res.status(500).json({ message: 'Internal Error', error: err.message });
+      return res.status(500).json({ message: err.message });
     }
   };
 
@@ -69,8 +69,31 @@ const newPost = async (req, res) => {
       const updatedPost = await BlogPostService.getPostById(id);
       return res.status(200).json(updatedPost);
     } catch (err) {
-      return res.status(500).json({ message: 'Internal Error', error: err.message });
+      return res.status(500).json({ message: err.message });
+    }
+  };
+
+  const removePost = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { id: userId } = req.payload.data;
+
+      const postToDelete = await BlogPostService.getPostById(id);
+      
+      if (!postToDelete) {
+        return res.status(404).json({ message: 'Post does not exist' });
+      }
+
+      if (postToDelete.user.id !== userId) {
+        return res.status(401).json({ message: 'Unauthorized user' });
+      }
+
+      await BlogPostService.removePost(id);
+
+      return res.sendStatus(204);
+    } catch (err) {
+      return res.status(500).json({ message: err.message });
     }
   };
   
-module.exports = { newPost, allPosts, postById, updatePost };
+module.exports = { newPost, allPosts, postById, updatePost, removePost };
