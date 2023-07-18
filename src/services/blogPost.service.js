@@ -20,6 +20,12 @@ const createNewPost = async (title, content, userId, categoryIds) => {
   return result;
 };
 
+const getAllPosts = () => BlogPost.findAll({
+  include: [
+  { model: User, as: 'user', attributes: { exclude: 'password' } },
+  { model: Category, as: 'categories', through: { attributes: [] } },
+  ] });
+
 const getPostById = (id) => BlogPost.findOne({
   where: { id },
   include: [
@@ -28,4 +34,4 @@ const getPostById = (id) => BlogPost.findOne({
   ],
 });
 
-module.exports = { createNewPost, getPostById };
+module.exports = { createNewPost, getPostById, getAllPosts };

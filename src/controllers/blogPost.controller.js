@@ -26,6 +26,15 @@ const newPost = async (req, res) => {
   }
   };
 
+  const allPosts = async (req, res) => {
+    try {
+      const posts = await BlogPostService.getAllPosts();
+      return res.status(200).json(posts);
+    } catch (err) {
+      return res.status(500).json({ message: 'Internal Error', error: err.message });
+    }
+  };
+
   const postById = async (req, res) => {
     try {
       const { id } = req.params;
@@ -40,4 +49,4 @@ const newPost = async (req, res) => {
     }
   };
   
-module.exports = { newPost, postById };
+module.exports = { newPost, allPosts, postById };
